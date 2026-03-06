@@ -16,6 +16,23 @@ from crewai import Crew, Process
 load_dotenv()
 
 # ── Reconstrói a service account do Google a partir dos secrets ──────────────
+required_secrets = [
+    "GOOGLE_TYPE",
+    "GOOGLE_PROJECT_ID", 
+    "GOOGLE_PRIVATE_KEY_ID",
+    "GOOGLE_PRIVATE_KEY",
+    "GOOGLE_CLIENT_EMAIL",
+    "GOOGLE_CLIENT_ID",
+]
+
+missing_secrets = [s for s in required_secrets if not os.environ.get(s)]
+if missing_secrets:
+    raise ValueError(
+        f"❌ Secrets não configurados no GitHub Actions: {', '.join(missing_secrets)}\n"
+        f"Configure em: Settings → Secrets and variables → Actions\n"
+        f"Veja GITHUB_ACTIONS_SETUP.md para instruções."
+    )
+
 _sa_info = {
     "type": os.environ["GOOGLE_TYPE"],
     "project_id": os.environ["GOOGLE_PROJECT_ID"],
