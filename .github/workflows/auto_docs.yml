@@ -1,4 +1,4 @@
-name: 🤖 Auto-documentação com CrewAI
+name:  Auto-documentação com CrewAI
 
 on:
   push:
@@ -17,17 +17,17 @@ jobs:
 
     steps:
       # 1. Checkout do repositório que recebeu o push
-      - name: 📥 Checkout do repositório
+      - name:  Checkout do repositório
         uses: actions/checkout@v4
 
       # 2. Configurar Python
-      - name: 🐍 Configurar Python 3.11
+      - name:  Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       # 3. Instalar dependências dos agentes CrewAI
-      - name: 📦 Instalar dependências
+      - name:  Instalar dependências
         run: |
           pip install --upgrade pip
           pip install \
@@ -39,7 +39,7 @@ jobs:
             "requests"
 
       # 4. Baixar o código dos agentes CrewAI
-      - name: 📂 Baixar agentes CrewAI
+      - name:  Baixar agentes CrewAI
         uses: actions/checkout@v4
         with:
           repository: pietraminatti/crewai_agents
@@ -48,7 +48,7 @@ jobs:
           path: crewai_agents_src
 
       # 5. Executar agentes e publicar README na branch feature-documents
-      - name: 🧠 Executar agentes CrewAI e publicar documentação
+      - name:  Executar agentes CrewAI e publicar documentação
         env:
           # ── Credenciais Vertex AI ──
           GOOGLE_TYPE: ${{ secrets.GOOGLE_TYPE }}
