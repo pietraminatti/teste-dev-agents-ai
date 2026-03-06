@@ -3,7 +3,15 @@ name:  Auto-documentação com CrewAI
 on:
   push:
     branches:
-      - "main"   # disparar APENAS na main
+      - "main"   # disparar na main
+  # Permite disparar manualmente via GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'Repositório a analisar (padrão: teste-dev-agents-ai)'
+        required: false
+        type: string
+        default: 'pietraminatti/teste-dev-agents-ai'
 
 # Garante que apenas um job roda por vez (evita race condition na branch feature-documents)
 concurrency:
@@ -63,7 +71,8 @@ jobs:
           # Use GH_TOKEN (Personal Access Token) para repos privados
           # Use GITHUB_TOKEN (padrão) para repos públicos
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
-          GITHUB_REPO_URL: "https://github.com/${{ github.repository }}"
+          # Se disparado manualmente, usa input; senão usa o repo padrão
+          GITHUB_REPO_URL: "https://github.com/${{ github.event.inputs.target_repo || 'pietraminatti/teste-dev-agents-ai' }}"
           DOC_BRANCH: "feature-documents"
           BASE_BRANCH: "main"
         run: |
