@@ -3,7 +3,7 @@ name:  Auto-documentação com CrewAI
 on:
   push:
     branches:
-      - "**"   # dispara em qualquer branch
+      - "main"   # disparar APENAS na main
 
 # Garante que apenas um job roda por vez (evita race condition na branch feature-documents)
 concurrency:
