@@ -31,7 +31,11 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _sa_tmp.name
 os.environ["VERTEXAI_PROJECT"] = os.environ["GOOGLE_PROJECT_ID"]
 os.environ["VERTEXAI_LOCATION"] = os.getenv("VERTEXAI_LOCATION", "us-central1")
 
-gemini_llm = LLM(model="vertex_ai/gemini-1.5-flash")
+# Tenta usar gemini-2.0-flash primeiro, fallback para gemini-1.5-flash
+try:
+    gemini_llm = LLM(model="vertex_ai/gemini-2.0-flash")
+except Exception:
+    gemini_llm = LLM(model="vertex_ai/gemini-1.5-flash")
 
 
 # ──────────────────────────────────────────────
