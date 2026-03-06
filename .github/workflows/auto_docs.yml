@@ -1,0 +1,70 @@
+name: 🤖 Auto-documentação com CrewAI
+
+on:
+  push:
+    branches:
+      - "**"   # dispara em qualquer branch
+
+# Garante que apenas um job roda por vez (evita race condition na branch feature-documents)
+concurrency:
+  group: auto-docs-${{ github.repository }}
+  cancel-in-progress: true
+
+jobs:
+  gerar-documentacao:
+    name: Analisar código e publicar README
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout do repositório que recebeu o push
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v4
+
+      # 2. Configurar Python
+      - name: 🐍 Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. Instalar dependências dos agentes CrewAI
+      - name: 📦 Instalar dependências
+        run: |
+          pip install --upgrade pip
+          pip install \
+            "crewai>=0.86.0" \
+            "crewai-tools>=0.17.0" \
+            "google-cloud-aiplatform>=1.42.0" \
+            "litellm" \
+            "python-dotenv>=1.0.0" \
+            "requests"
+
+      # 4. Baixar o código dos agentes CrewAI
+      - name: 📂 Baixar agentes CrewAI
+        uses: actions/checkout@v4
+        with:
+          repository: pietraminatti/crewai_agents
+          # Se o repo for privado, use um PAT:
+          # token: ${{ secrets.AGENTS_REPO_PAT }}
+          path: crewai_agents_src
+
+      # 5. Executar agentes e publicar README na branch feature-documents
+      - name: 🧠 Executar agentes CrewAI e publicar documentação
+        env:
+          # ── Credenciais Vertex AI ──
+          GOOGLE_TYPE: ${{ secrets.GOOGLE_TYPE }}
+          GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+          GOOGLE_PRIVATE_KEY_ID: ${{ secrets.GOOGLE_PRIVATE_KEY_ID }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+          GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_TOKEN_URI: ${{ secrets.GOOGLE_TOKEN_URI }}
+          VERTEXAI_LOCATION: "us-central1"
+          # ── GitHub ──
+          # GITHUB_TOKEN tem permissão automática para criar branches e commitar
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO_URL: "https://github.com/${{ github.repository }}"
+          DOC_BRANCH: "feature-documents"
+          BASE_BRANCH: "main"
+        run: |
+          cd crewai_agents_src
+          python run_analysis.py
