@@ -60,7 +60,8 @@ jobs:
           GOOGLE_TOKEN_URI: ${{ secrets.GOOGLE_TOKEN_URI }}
           VERTEXAI_LOCATION: "us-central1"
           # ── GitHub ──
-          # GITHUB_TOKEN tem permissão automática para criar branches e commitar
+          # Nota: GITHUB_TOKEN padrão NÃO tem permissão de escrita em repos privados
+          # Para isso, use um Personal Access Token configurado nos secrets
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO_URL: "https://github.com/${{ github.repository }}"
           DOC_BRANCH: "feature-documents"

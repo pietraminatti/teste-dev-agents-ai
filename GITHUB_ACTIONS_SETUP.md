@@ -13,10 +13,21 @@ Este projeto usa **GitHub Actions** para automaticamente analisar o repositório
 
 Para que o workflow funcione, você precisa adicionar os seguintes secrets no repositório:
 
-### 1. Acesso ao GitHub (Obrigatório)
-- **`GITHUB_TOKEN`**: Já é fornecido automaticamente pelo GitHub Actions ✅
+### 1. Token do GitHub (Obrigatório)
+**Option A: Usar `GITHUB_TOKEN` padrão (para repos públicos)**
+- O token é fornecido automaticamente ✅
+- Funciona com repositórios **públicos**
 
-### 2. Credenciais do Google Cloud (Para o Vertex AI)
+**Option B: Usar Personal Access Token (para repos privados)**
+Se `teste-dev-agents-ai` for **privado**, você precisa:
+1. Criar um PAT em: https://github.com/settings/tokens
+2. Permissões necessárias:
+   - ✅ `repo` (full control of private repositories)
+   - ✅ `workflow` (update GitHub Action workflows)
+3. Adicione como secret `GH_TOKEN` no `crewai_agents`
+4. Atualize o workflow para usar: `GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}`
+
+### 2. Credenciais do Google Cloud (Obrigatório)
 Você precisa converter o arquivo `service_account.json` em variáveis de ambiente:
 
 - **`GOOGLE_TYPE`**: Valor de `"type"` no JSON
