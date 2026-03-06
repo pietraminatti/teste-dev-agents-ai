@@ -18,7 +18,10 @@ tarefa_documentacao = Task(
         "- Estrutura do projeto com diagrama\n"
         "- Arquitetura com fluxo visual\n"
         "- Tecnologias e versões utilizadas\n"
-        "- Exemplos práticos de uso"
+        "- Exemplos práticos de uso\n\n"
+        "IMPORTANTE: Sua resposta deve conter APENAS o README em Markdown. "
+        "Não inclua explicações, pensamentos ou preâmbulos. "
+        "Comece diretamente com o título do projeto (# Nome do Projeto)."
     ),
     expected_output=(
         "Um README.md bem estruturado contendo:\n"
@@ -34,7 +37,9 @@ tarefa_documentacao = Task(
         "10) Tabela de tecnologias com versões\n"
         "11) Exemplos e resultados esperados\n"
         "12) Seção de troubleshooting\n"
-        "13) Licença, autor e contato"
+        "13) Licença, autor e contato\n\n"
+        "ATENÇÃO: A resposta deve ser APENAS o markdown do README. "
+        "Sem explicações, comentários ou pensamentos adicionais."
     ),
     agent=analista,
 )
@@ -49,7 +54,10 @@ tarefa_melhorias = Task(
         "identifique pontos de melhoria no código. "
         "Avalie aspectos como: refatoração, boas práticas (SOLID, Clean Code), "
         "performance, segurança, tratamento de erros, testes e manutenibilidade. "
-        "Use a ferramenta de busca no GitHub para examinar trechos específicos do código."
+        "Use a ferramenta de busca no GitHub para examinar trechos específicos do código.\n\n"
+        "IMPORTANTE: Sua resposta deve conter APENAS um relatório estruturado. "
+        "Não inclua pensamentos preliminares, explicações ou preâmbulos. "
+        "Comece diretamente com o título ou seção do relatório."
     ),
     expected_output=(
         "Um relatório de melhorias contendo:\n"
@@ -59,7 +67,9 @@ tarefa_melhorias = Task(
         "   - Arquivo e trecho de código afetado\n"
         "   - Sugestão concreta de como melhorar (com exemplo de código quando possível)\n"
         "   - Justificativa e benefício esperado\n"
-        "3) Resumo executivo com as 3 melhorias mais impactantes"
+        "3) Resumo executivo com as 3 melhorias mais impactantes\n\n"
+        "ATENÇÃO: Responda APENAS com o relatório estruturado. "
+        "Sem explicações prévias ou comentários adicionais."
     ),
     agent=consultor,
 )
